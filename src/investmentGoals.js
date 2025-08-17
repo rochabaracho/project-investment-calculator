@@ -1,8 +1,8 @@
-function converteToMonthlyReturnRate(yearlyReturnRate) {
+function convertToMontlyReturnRate(yearlyReturnRate) {
   return Math.pow(yearlyReturnRate, 1 / 12);
 }
 
-function generateReturnsArray(
+export function generateReturnsArray(
   startingAmount = 0,
   timeHorizon = 0,
   timePeriod = "monthly",
