@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Investment Calculator</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="h-[100dvh] grid grid-cols-3 grid-rows-2">
+    <aside
+      class="row-span-2 bg-emerald-300 flex flex-col justify-between py-5 px-2"
+    >
+      <h1 class="text-2xl font-bold px-6">Investment Calculator</h1>
+      <form id="investment-form" class="w-full">
+        <!-- Grandparent Element. -->
+        <div class="flex flex-col w-full px-6 my-2 h-[4.5rem]">
+          <label for="starting-amount" class="font-bold text-gray-700"
+            >Initial investment</label
+          >
+          <!-- Parent Element. -->
+          <div class="flex">
+            <input
+              type="text"
+              id="percentageII"
+              class="w-1/6 bg-emerald-200 text-center rounded-l-lg"
+              value="US$"
+              disabled
+            />
+            <!-- Element. -->
+            <input
+              type="text"
+              class="w-5/6 bg-white rounded-r-lg px-2"
+              placeholder="0.00"
+              required
+              id="starting-amount"
+              name="starting-amount"
+            />
+          </div>
+        </div>
+        <!-- Grandparent Element. -->
+        <div class="flex flex-col w-full px-6 my-2 h-[4.25rem]">
+          <label for="additional-contributions" class="font-bold text-gray-700"
+            >Additional contributions</label
+          >
+          <!-- Parent Element. -->
+          <div class="flex">
+            <input
+              type="text"
+              id="percentageAC"
+              class="w-1/6 bg-emerald-200 text-center rounded-l-lg"
+              value="US$"
+              disabled
+            />
+            <!-- Element. -->
+            <input
+              type="text"
+              class="w-5/6 bg-white rounded-r-lg px-2"
+              placeholder="0.00"
+              id="additional-contributions"
+              name="additional-contributions"
+            />
+          </div>
+        </div>
+        <!-- Grandparent Element. -->
+        <div class="flex flex-col w-full px-6 my-2 h-[4.25rem]">
+          <label for="time-amount" class="font-bold text-gray-700">Term</label>
+          <!-- Parent Element. -->
+          <div class="flex">
+            <!-- Element. -->
+            <input
+              type="text"
+              class="w-2/3 bg-white rounded-l-lg px-2"
+              placeholder="0"
+              required
+              id="time-amount"
+              name="time-amount"
+            />
+            <select
+              class="w-1/3 bg-white text-center rounded-r-lg border-l-2 border-emerald-600 hover:bg-emerald-950 hover:text-slate-200"
+              id="time-amount-period"
+              name="time-amount-period"
+            >
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+        </div>
+        <!-- Grandparent Element. -->
+        <div class="flex flex-col w-full px-6 my-2 h-[4.25rem]">
+          <label for="return-rate" class="font-bold text-gray-700"
+            >Profitability</label
+          >
+          <!-- Parent Element. -->
+          <div class="flex">
+            <input
+              type="text"
+              id="percentageP"
+              class="w-1/6 bg-emerald-200 text-center rounded-l-lg"
+              value="%"
+              disabled
+            />
+            <!-- Element. -->
+            <input
+              type="text"
+              class="w-1/2 bg-white px-2"
+              required
+              id="return-rate"
+              name="return-rate"
+              placeholder="0"
+            />
+            <select
+              class="w-1/3 bg-white text-center rounded-r-lg border-l-2 border-emerald-600 hover:bg-emerald-950 hover:text-slate-200"
+              id="evaluation-period"
+              name="evaluation-period"
+            >
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+        </div>
+        <!-- Grandparent Element. -->
+        <div class="flex flex-col w-full px-6 my-2 h-[4.25rem]">
+          <label for="tax-rate" class="font-bold text-gray-700"
+            >Profit tax</label
+          >
+          <!-- Parent Element. -->
+          <div class="flex">
+            <input
+              type="text"
+              id="percentagePT"
+              class="w-1/6 bg-emerald-200 text-center rounded-l-lg"
+              value="%"
+              disabled
+            />
+            <!-- Element. -->
+            <input
+              type="text"
+              class="w-5/6 bg-white rounded-r-lg px-2"
+              placeholder="0"
+              required
+              id="tax-rate"
+              name="tax-rate"
+            />
+          </div>
+        </div>
+      </form>
+      <div class="flex h-12 px-6 my-8 w-full gap-2 h-[4.25rem]">
+        <button
+          form="investment-form"
+          id="calculate-results"
+          type="submit"
+          class="w-1/2 rounded-lg bg-emerald-950 text-slate-200 hover:bg-emerald-800"
+        >
+          Calculate
+        </button>
+        <button id="clear-form" class="w-1/2 rounded-lg hover:bg-emerald-800">
+          Clear fields
+        </button>
+      </div>
+    </aside>
+    <main>
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script>
+        const ctx = document.getElementById("myChart");
+
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [
+              {
+                label: "# of Votes",
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      </script>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
