@@ -7,6 +7,45 @@ const clearFormButton = document.getElementById("clear-form");
 const finalMoneyChart = document.getElementById("final-money-distribution");
 const progressionChart = document.getElementById("progression");
 
+let doughnutChartReference = {};
+let stackedBarChartReference = {};
+
+function formatCurrency(value) {
+  // return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  return value.toFixed(2);
+}
+
+function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
+function resetCharts() {
+  if (
+    !isObjectEmpty(doughnutChartReference) &&
+    !isObjectEmpty(stackedBarChartReference)
+  ) {
+    doughnutChartReference.destroy();
+    stackedBarChartReference.destroy();
+  }
+}
+
+function clearForm() {
+  form["starting-amount"].value = "";
+  form["additional-contributions"].value = "";
+  form["time-amount"].value = "";
+  form["return-rate"].value = "";
+  form["tax-rate"].value = "";
+
+  resetCharts();
+
+  const errorInputContainers = document.querySelectorAll(".error");
+
+  for (const errorInputContainer of errorInputContainers) {
+    errorInputContainer.classList.remove("error");
+    errorInputContainer.parentElement.querySelector("p").remove();
+  }
+}
+
 function validateInput(event) {
   if (event.target.value === "") {
     return;
@@ -36,30 +75,12 @@ function validateInput(event) {
   }
 }
 
-function formatCurrency(value) {
-  return value.toFixed(2);
-}
-
-function clearForm() {
-  form["starting-amount"].value = "";
-  form["additional-contributions"].value = "";
-  form["time-amount"].value = "";
-  form["return-rate"].value = "";
-  form["tax-rate"].value = "";
-
-  const errorInputContainers = document.querySelectorAll(".error");
-
-  for (const errorInputContainer of errorInputContainers) {
-    errorInputContainer.classList.remove("error");
-    errorInputContainer.parentElement.querySelector("p").remove();
-  }
-}
-
 function renderProgression(event) {
   event.preventDefault();
   if (document.querySelector(".error")) {
     return;
   }
+  resetCharts();
   const startingAmount = Number(
     document.getElementById("starting-amount").value.replace(",", ".")
   );
@@ -99,7 +120,7 @@ function renderProgression(event) {
     ),
   ];
 
-  new Chart(finalMoneyChart, {
+  doughnutChartReference = new Chart(finalMoneyChart, {
     type: "doughnut",
     data: {
       labels: ["Total Invested", "Income", "Tax"],
@@ -117,7 +138,7 @@ function renderProgression(event) {
     },
   });
 
-  new Chart(progressionChart, {
+  stackedBarChartReference = new Chart(progressionChart, {
     type: "bar",
     data: {
       labels: returnsArray.map((investmentObject) => investmentObject.month),
