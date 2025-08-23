@@ -10,6 +10,14 @@ const progressionChart = document.getElementById("progression");
 let doughnutChartReference = {};
 let stackedBarChartReference = {};
 
+const columnsArray = [
+  { columnLabel: "Total Invested", accessor: "investedAmouint" },
+  { columnLabel: "Monthly Profitably", accessor: "interestReturns" },
+  { columnLabel: "Total Profitably", accessor: "totalInterestReturns" },
+  { columnLabel: "month", accessor: "moth" },
+  { columnLabel: "Total Amount", accessor: "totalAmount" },
+];
+
 function formatCurrency(value) {
   // return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   return value.toFixed(2);
