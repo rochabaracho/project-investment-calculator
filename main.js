@@ -1,5 +1,6 @@
 import { generateReturnsArray } from "./src/investmentGoals.js";
 import { Chart } from "chart.js/auto";
+import { createTable } from "./src/table.js";
 
 const form = document.getElementById("investment-form");
 const clearFormButton = document.getElementById("clear-form");
@@ -11,16 +12,33 @@ let doughnutChartReference = {};
 let stackedBarChartReference = {};
 
 const columnsArray = [
-  { columnLabel: "Total Invested", accessor: "investedAmouint" },
-  { columnLabel: "Monthly Profitably", accessor: "interestReturns" },
-  { columnLabel: "Total Profitably", accessor: "totalInterestReturns" },
-  { columnLabel: "month", accessor: "moth" },
-  { columnLabel: "Total Amount", accessor: "totalAmount" },
+  { columnLabel: "Month", accessor: "month" },
+  {
+    columnLabel: "Total Invested",
+    accessor: "investedAmount",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: "Monthly Profitability",
+    accessor: "interestReturns",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: "Total Profitability",
+    accessor: "totalInterestReturns",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: "Total Amount",
+    accessor: "totalAmount",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
 ];
 
 function formatCurrency(value) {
+  // return value.toFixed(2);
   // return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  return value.toFixed(2);
+  return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
 function isObjectEmpty(obj) {
@@ -52,6 +70,14 @@ function clearForm() {
     errorInputContainer.classList.remove("error");
     errorInputContainer.parentElement.querySelector("p").remove();
   }
+
+  clearTable();
+}
+
+function clearTable() {
+  const tableReference = document.getElementById("results-table");
+  tableReference.querySelector("thead").remove();
+  tableReference.querySelector("tbody").remove();
 }
 
 function validateInput(event) {
@@ -89,6 +115,7 @@ function renderProgression(event) {
     return;
   }
   resetCharts();
+  // clearTable();
   const startingAmount = Number(
     document.getElementById("starting-amount").value.replace(",", ".")
   );
@@ -116,7 +143,7 @@ function renderProgression(event) {
     returnRatePeriod
   );
 
-  const finalInvestmentObject = returnsArray[returnsArray.length - 1];
+  /* const finalInvestmentObject = returnsArray[returnsArray.length - 1];
 
   const dataChart = [
     formatCurrency(finalInvestmentObject.investedAmount),
@@ -181,7 +208,9 @@ function renderProgression(event) {
         },
       },
     },
-  });
+  }); */
+
+  createTable(columnsArray, returnsArray, "results-table");
 
   console.log(returnsArray);
 }
@@ -192,5 +221,5 @@ for (const formElement of form) {
   }
 }
 
-// form.addEventListener("submit", renderProgression);
+form.addEventListener("submit", renderProgression);
 clearFormButton.addEventListener("click", clearForm);

@@ -17,7 +17,7 @@ type columnsArray = columnObject[];
  */
 
 const columnsArray = [
-  { columnLabel: "Total Invested", accessor: "investedAmouint" },
+  { columnLabel: "Total Invested", accessor: "investedAmount" },
   { columnLabel: "Monthly Profitably", accessor: "interestReturns" },
   { columnLabel: "Total Profitably", accessor: "totalInterestReturns" },
   { columnLabel: "month", accessor: "moth" },
