@@ -9,8 +9,6 @@ function createTableHeader(tableReference, columnsArray) {
     return thead;
   }
 
-  // const tableHeaderReference =
-  //   tableReference.querySelector("thead") ?? createTheadElement(tableReference);
   const tableHeaderReference =
     tableReference.querySelector("thead") ?? createTheadElement(tableReference);
 

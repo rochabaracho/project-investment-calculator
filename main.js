@@ -3,7 +3,8 @@ import { Chart } from "chart.js/auto";
 import { createTable } from "./src/table.js";
 
 const form = document.getElementById("investment-form");
-const clearFormButton = document.getElementById("clear-form");
+// const clearFormButton = document.getElementById("clear-form");
+const clearDataButton = document.getElementById("clear-data");
 
 const finalMoneyChart = document.getElementById("final-money-distribution");
 const progressionChart = document.getElementById("progression");
@@ -35,8 +36,11 @@ const columnsArray = [
   },
 ];
 
+function formatNumber(value) {
+  return value.toFixed(2);
+}
+
 function formatCurrency(value) {
-  // return value.toFixed(2);
   // return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
@@ -75,9 +79,22 @@ function clearForm() {
 }
 
 function clearTable() {
-  const tableReference = document.getElementById("results-table");
-  tableReference.querySelector("thead").remove();
-  tableReference.querySelector("tbody").remove();
+  const tableElement = document.getElementById("results-table");
+  if (tableElement) {
+    const theaderElement = tableElement.querySelector("thead");
+    if (theaderElement) {
+      theaderElement.remove();
+    }
+    const tbodyElement = tableElement.querySelector("tbody");
+    if (tbodyElement) {
+      tbodyElement.remove();
+    }
+  }
+}
+
+function clearData() {
+  clearForm();
+  clearTable();
 }
 
 function validateInput(event) {
@@ -115,7 +132,7 @@ function renderProgression(event) {
     return;
   }
   resetCharts();
-  // clearTable();
+  clearTable();
   const startingAmount = Number(
     document.getElementById("starting-amount").value.replace(",", ".")
   );
@@ -143,16 +160,14 @@ function renderProgression(event) {
     returnRatePeriod
   );
 
-  /* const finalInvestmentObject = returnsArray[returnsArray.length - 1];
+  const finalInvestmentObject = returnsArray[returnsArray.length - 1];
 
   const dataChart = [
-    formatCurrency(finalInvestmentObject.investedAmount),
-    formatCurrency(
+    formatNumber(finalInvestmentObject.investedAmount),
+    formatNumber(
       finalInvestmentObject.totalInterestReturns * (1 - taxRate / 100)
     ),
-    formatCurrency(
-      finalInvestmentObject.totalInterestReturns * (taxRate / 100)
-    ),
+    formatNumber(finalInvestmentObject.totalInterestReturns * (taxRate / 100)),
   ];
 
   doughnutChartReference = new Chart(finalMoneyChart, {
@@ -181,15 +196,16 @@ function renderProgression(event) {
         {
           label: "Total Investment",
           data: returnsArray.map((investmentObject) =>
-            formatCurrency(investmentObject.investedAmount)
+            formatNumber(investmentObject.investedAmount)
           ),
           backgroundColor: "rgb(255, 99, 132)",
         },
         {
           label: "Investment Profitability",
           data: returnsArray.map((investmentObject) =>
-            formatCurrency(investmentObject.interestReturns)
+            formatNumber(investmentObject.interestReturns)
           ),
+          backgroundColor: "rgb(54, 162, 235)",
           backgroundColor: "rgb(54, 162, 235)",
         },
       ],
@@ -208,7 +224,7 @@ function renderProgression(event) {
         },
       },
     },
-  }); */
+  });
 
   createTable(columnsArray, returnsArray, "results-table");
 
@@ -222,4 +238,5 @@ for (const formElement of form) {
 }
 
 form.addEventListener("submit", renderProgression);
-clearFormButton.addEventListener("click", clearForm);
+// clearFormButton.addEventListener("click", clearForm);
+clearDataButton.addEventListener("click", clearData);
