@@ -74,8 +74,6 @@ function clearForm() {
     errorInputContainer.classList.remove("error");
     errorInputContainer.parentElement.querySelector("p").remove();
   }
-
-  clearTable();
 }
 
 function clearTable() {
@@ -236,6 +234,19 @@ for (const formElement of form) {
     formElement.addEventListener("blur", validateInput);
   }
 }
+
+const mainElement = document.querySelector("main");
+const carouselElement = document.getElementById("carousel");
+const previousButton = document.getElementById("slide-arrow-previous");
+const nextButton = document.getElementById("slide-arrow-next");
+
+previousButton.addEventListener("click", () => {
+  carouselElement.scrollLeft -= mainElement.clientWidth;
+});
+
+nextButton.addEventListener("click", () => {
+  carouselElement.scrollLeft += mainElement.clientWidth;
+});
 
 form.addEventListener("submit", renderProgression);
 // clearFormButton.addEventListener("click", clearForm);
